@@ -57,6 +57,8 @@ const chart = async () => {
     .data(dataset)
     .enter()
     .append("rect")
+    .attr('data-date', (d) => d[0])
+    .attr('data-gdp', (d) => d[1])
     .attr("x", (d, i) => i * width / dataset.length)
     .attr("width", width / dataset.length)
     .attr("y", (d, i) => yScale(d[1]))
