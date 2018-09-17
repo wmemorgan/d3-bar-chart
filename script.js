@@ -48,6 +48,10 @@ const chart = async () => {
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
+  var tooltip = d3.select('#chart').append('div')
+    .attr('id', 'tooltip')
+    .style('opacity', 0)
+
   // append the rectangles for the bar chart
   svg.selectAll("rect")
     .data(dataset)
@@ -58,7 +62,13 @@ const chart = async () => {
     .attr("y", (d, i) => yScale(d[1]))
     .attr("height", (d, i) => height - yScale(d[1]))
     .attr('class', 'bar')
-    .attr("fill", "navy")
+    .on('mouseover', (d) => {
+      tooltip.transition().duration(200).style('opacity', 0.9)
+      tooltip.html(`<p>Date: <span>${d[0]}</span></p> <p>Billions: <span>$${d[1]}</span></p>`)
+        .style('left', `${d3.event.layerX}px`)
+        .style('top', `${d3.event.layerY - 28}px`)
+    })
+    .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0))
 
   // add the x Axis 
   const xAxis = d3.axisBottom(xScale);
