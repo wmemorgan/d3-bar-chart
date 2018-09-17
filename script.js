@@ -5,27 +5,22 @@ var margin = { top: 50, right: 20, bottom: 50, left: 100 }
 var padding = 0
 
 // Set the width and height using the current width and height of the div
-var width = 800
-var height = 400
+var width = 991
+var height = 600
 
 // Get the data
 const url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json'
 const chart = async () => {
   let getData = await fetch(url)
   let rawData = await getData.json()
-  console.log(`rawData: `, rawData)
   let dataset = rawData.data
-  console.log(`dataset`, dataset)
-  console.log(`dataset length is: `, dataset.length)
 
   // Format the data
   // Dates
   const GDPDates = dataset.map((d) => d[0])
-  console.log(`GDPDates is: ${GDPDates}`)
   const minDate = new Date(d3.min(GDPDates))
-  console.log(`minDate ${minDate}`)
   const maxDate = new Date(d3.max(GDPDates))
-  console.log(`maxDate ${maxDate}`)
+
   // Dollar amount
   const GDPAmounts = dataset.map((d) => d[1])
   const minGDPAmt = d3.min(GDPAmounts)
@@ -67,8 +62,10 @@ const chart = async () => {
     .on('mouseover', (d) => {
       tooltip.transition().duration(200).style('opacity', 0.9)
       tooltip.html(`<p>Date: <span>${d[0]}</span></p> <p>Billions: <span>$${d[1]}</span></p>`)
+        .attr('data-date', d[0])
         .style('left', `${d3.event.layerX}px`)
         .style('top', `${d3.event.layerY - 28}px`)
+        
     })
     .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0))
 
