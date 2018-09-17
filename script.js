@@ -5,8 +5,8 @@ var margin = { top: 50, right: 20, bottom: 50, left: 100 }
 var padding = 0
 
 // Set the width and height using the current width and height of the div
-var width = 991
-var height = 600
+var width = 800
+var height = 400
 
 // Get the data
 const url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json'
@@ -32,12 +32,13 @@ const chart = async () => {
     .range([0, width])
 
   const yScale = d3.scaleLinear()
-    .domain([minGDPAmt, maxGDPAmt])
+    .domain([0, maxGDPAmt])
     .range([height, 0])
 
   // create svg and append to chart div
   var svg = d3.select('#chart')
     .append('svg')
+    .attr('class', 'graph')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -77,12 +78,13 @@ const chart = async () => {
     .call(xAxis)
     .attr('id', 'x-axis')
     .attr('transform', `translate(0, ${height})`)
+    .append('text')
+    .append('hello')
 
   // add the y Axis
   svg.append('g')
     .call(yAxis)
     .attr('id', 'y-axis')
-    // .attr('height', height)
 
 
 }
